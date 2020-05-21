@@ -2,14 +2,16 @@
 # imports
 import random
 
+# rock, paper, scissors check
+
 
 def rps_checker():
-    error = "Please choose rock, paper or scissor (r / p / s) "
+    error = "Please choose rock, paper or scissors (r / p / s) "
 
     valid = False
     while not valid:
 
-        # asks question and puts answer in lowercase
+        # asks question and puts answer in lowercase (with capital starting letter)
         response = input("Rock / Paper / Scissors: ").lower()
         print()
 
@@ -19,6 +21,9 @@ def rps_checker():
             return "Paper"
         elif response == "scissors" or response == "s":
             return "Scissors"
+
+        elif response == "xxx":
+            print("xxxxxxxxxxx")  # NEED TO ADD ESCAPE EXIT
 
         else:
             print(error)
@@ -31,7 +36,7 @@ def intcheck(question, low, high):
     error = "Please enter an integer between {} and {}".format(low, high)
     while not valid:
         try:
-            response = int(input(question))
+            response = int(input(question))  # (NEED TO DO <ENTER> IFY(for continuous))
             if low <= response <= high:
                 return response
             else:
@@ -42,8 +47,8 @@ def intcheck(question, low, high):
             print()
 
 
-# hl(pretty stuff around some outputs) code
-def hl_statement(statement, char):
+# rps (pretty stuff around some outputs) code
+def rps_statement(statement, char):
     print()
     print(char * len(statement))
     print(statement)
@@ -51,11 +56,11 @@ def hl_statement(statement, char):
     print()
     return ""
 
-
-sop = hl_statement("--- Rock / Paper / Scissors - Instructions ---", "-")
+# instructions and welcome
+rps_instructions = rps_statement("--- Rock / Paper / Scissors - Instructions ---", "-")
 print("Welcome!")
 print("For each game either choose the number of ")
-print("rounds or press <enter> for continuous mode.")
+print("rounds or press <enter> for continuous mode.")  # (NEED TO DO CONTINUOUS MODE)
 print("For both modes, You can end a game early by ")
 print("pressing xxx")
 print()
@@ -63,58 +68,80 @@ print("When promoted choose Rock / Paper / Scissors")
 print("At the end of each game, you will see a game")
 print("summary. At that point you can either play")
 print("again (Press <enter> when promoted) or quit")
-print("by pressing any other key.")
+print("by pressing any other key(and then enter).")
 print()
 print("----------------------------------------------")
 
 losses = 0
 wins = 0
-tie = 0
+ties = 0
 
-play_again = ""
+# play_again loop start
+play_again = ""  # might be able to move?
 while play_again == "":
 
-    WORDS = ("Paper", "Scissors", "Rock")
-    word = random.choice(WORDS)
-    correct = word
-    print(word)
+    print()
+    # asking how many rounds
+    rounds = intcheck("How many rounds?", 1, 10)  # asking how many rounds to do.(ENTER)
+    print()
 
-    chosen_item = rps_checker()
-    print(chosen_item)
+    rounds_played = 0
 
-    if word == chosen_item:
-        tie = hl_statement("=== It's a Tie ===", "=")
-        tie += 1
+    while rounds_played < rounds:
+        # output amount of rounds and guesses allowed
+        print("Round {} of {}".format(rounds_played + 1, rounds))
+        print()
 
-    elif word == "Paper" and chosen_item == "Scissors":
-        loss_1 = hl_statement("K/ Scissors cut Paper, You lose K/", "K")
-        losses += 1
+        WORDS = ("Paper", "Scissors", "Rock")
+        word = random.choice(WORDS)
+        correct = word
+        print(word)  # (NEED TO # IFY (LATER))
 
-    elif word == "Scissors" and chosen_item == "Rock":
-        loss_2 = hl_statement("#K Rock smashes Scissors, You lose #K", "#")
-        losses += 1
+        rounds_played += 1
 
-    elif word == "Rock" and chosen_item == "Paper":
-        loss_3 = hl_statement("/# Paper covers Rock, You Lose /#", "/")
-        losses += 1
+        chosen_item = rps_checker()
+        print(chosen_item)
+        print(word)
 
-    elif word == "Scissors" and chosen_item == "Paper":
-        won_1 = hl_statement("K/ Scissors cut Paper, You Win K/", "K")
-        wins += 1
+        # Word vs Chosen_item results
 
-    elif word == "Rock" and chosen_item == "Scissors":
-        won_2 = hl_statement("#K Rock smashes Scissors, You lose #K", "#")
-        wins += 1
+        if word == chosen_item:
+            tie = rps_statement("=== It's a Tie ===", "=")
+            ties += 1
 
-    elif word == "Paper" and chosen_item == "Rock":
-        won_3 = hl_statement("/# Paper covers Rock, You Lose /#", "/")
-        wins += 1
+        elif word == "Scissors" and chosen_item == "Paper":
+            loss_1 = rps_statement("Scissors cut Paper, You lose", "&")
+            losses += 1
 
-    else:
-        print("nope")
+        elif word == "Rock" and chosen_item == "Scissors":
+            loss_2 = rps_statement("Rock smashes Scissors, You lose", "&")
+            losses += 1
 
-    print(losses)
-    print(wins)
-    print(tie)
+        elif word == "Paper" and chosen_item == "Rock":
+            loss_3 = rps_statement("Paper covers Rock, You Lose", "&")
+            losses += 1
 
-    play_again = (input("Push <enter> to play again or any other key to quit"))
+        elif word == "Paper" and chosen_item == "Scissors":
+            won_1 = rps_statement("Scissors cut Paper, You Win", "$")
+            wins += 1
+
+        elif word == "Scissors" and chosen_item == "Rock":
+            won_2 = rps_statement("Rock smashes Scissors, You Win", "$")
+            wins += 1
+
+        elif word == "Rock" and chosen_item == "Paper":
+            won_3 = rps_statement("Paper covers Rock, You Win", "$")
+            wins += 1
+
+        else:
+            print("error")  # (other? ERROR??)
+
+    # 'conclusion'
+
+    final = rps_statement("*** Won:{}  |  Lost:{}  |  Draw:{} ***".format(wins, losses, ties), "*")
+
+    play_again = (input("Push <enter> to play again/continue or any other key to quit"))
+
+# Goodbye message
+
+print("Thanks For Playing!")
