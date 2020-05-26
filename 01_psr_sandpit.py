@@ -22,9 +22,6 @@ def rps_checker():
         elif response == "scissors" or response == "s":
             return "Scissors"
 
-        elif response == "xxx":
-            print("xxxxxxxxxxx")  # NEED TO ADD ESCAPE EXIT
-
         else:
             print(error)
             print()
@@ -36,7 +33,7 @@ def intcheck(question, low, high):
     error = "Please enter an integer between {} and {}".format(low, high)
     while not valid:
         try:
-            response = int(input(question))  # (NEED TO DO <ENTER> IFY(for continuous))
+            response = int(input(question))
             if low <= response <= high:
                 return response
             else:
@@ -59,11 +56,8 @@ def rps_statement(statement, char):
 # instructions and welcome
 rps_instructions = rps_statement("--- Rock / Paper / Scissors - Instructions ---", "-")
 print("Welcome!")
-print("For each game either choose the number of ")
-print("rounds or press <enter> for continuous mode.")  # (NEED TO DO CONTINUOUS MODE)
-print("For both modes, You can end a game early by ")
-print("pressing xxx")
-print()
+print("For each game you can choose how many rounds")
+print("you would like to play.")
 print("When promoted choose Rock / Paper / Scissors")
 print("At the end of each game, you will see a game")
 print("summary. At that point you can either play")
